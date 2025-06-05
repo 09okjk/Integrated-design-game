@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>生成游戏背景图</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="backgroundCanvas"></canvas>
+    <script>
+        // 获取Canvas上下文
+        const canvas = document.getElementById('backgroundCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // 设置Canvas尺寸
+        canvas.width = 1920;  // 宽度
+        canvas.height = 1080; // 高度
+        
+        // 绘制渐变背景
+        const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+        gradient.addColorStop(0, '#051626');     // 顶部深蓝色
+        gradient.addColorStop(0.4, '#183446');   // 中部海蓝色
+        gradient.addColorStop(0.8, '#235d66');   // 底部青绿色
+        gradient.addColorStop(1, '#1e4e55');     // 最底部暗青色
+        
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // 绘制星星点点
+        function drawStars() {
+            for (let i = 0; i < 200; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height * 0.7; // 限制在上部70%区域
+                const radius = Math.random() * 1.5;
+                const opacity = Math.random() * 0.8 + 0.2;
+                
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                ctx.fill();
+            }
+        }
+        
+        // 绘制山脉轮廓
+        function drawMountains() {
+            // 远山
+            ctx.fillStyle = '#0c2a31';
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height * 0.8);
+            
+            // 生成山峰
+            for (let x = 0; x < canvas.width; x += 50) {
+                const y = canvas.height * 0.8 - Math.random() * 80 - 20;
+                ctx.lineTo(x, y);
+            }
+            
+            ctx.lineTo(canvas.width, canvas.height * 0.8);
+            ctx.lineTo(canvas.width, canvas.height);
+            ctx.lineTo(0, canvas.height);
+            ctx.closePath();
+            ctx.fill();
+            
+            // 近山
+            ctx.fillStyle = '#081e22';
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height * 0.85);
+            
+            // 生成山峰
+            for (let x = 0; x < canvas.width; x += 30) {
+                const y = canvas.height * 0.85 - Math.random() * 120 - 30;
+                ctx.lineTo(x, y);
+            }
+            
+            ctx.lineTo(canvas.width, canvas.height * 0.85);
+            ctx.lineTo(canvas.width, canvas.height);
+            ctx.lineTo(0, canvas.height);
+            ctx.closePath();
+            ctx.fill();
+        }
+        
+        // 绘制水面反光
+        function drawWaterReflection() {
+            ctx.fillStyle = 'rgba(125, 180, 190, 0.1)';
+            
+            // 水波效果
+            for (let i = 0; i < 5; i++) {
+                const y = canvas.height * 0.85 + i * 20;
+                const height = 10;
+                
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                
+                for (let x = 0; x < canvas.width; x += 40) {
+                    const waveHeight = Math.sin(x * 0.02 + i) * height;
+                    ctx.lineTo(x, y + waveHeight);
+                }
+                
+                ctx.lineTo(canvas.width, y);
+                ctx.lineTo(canvas.width, y + 20);
+                ctx.lineTo(0, y + 20);
+                ctx.closePath();
+                ctx.fill();
+            }
+        }
+        
+        // 绘制树木剪影
+        function drawTrees() {
+            ctx.fillStyle = '#000'; // 黑色剪影
+            
+            for (let i = 0; i < 40; i++) {
+                const x = Math.random() * canvas.width;
+                const baseHeight = canvas.height * 0.75 + Math.random() * 50;
+                const treeHeight = 20 + Math.random() * 40;
+                const treeWidth = 5 + Math.random() * 10;
+                
+                // 树干
+                ctx.fillRect(x - treeWidth/4, baseHeight - treeHeight, treeWidth/2, treeHeight);
+                
+                // 树冠
+                ctx.beginPath();
+                if (Math.random() > 0.5) {
+                    // 松树类型
+                    for (let j = 0; j < 3; j++) {
+                        const triangleHeight = treeHeight * 0.4;
+                        const triangleY = baseHeight - treeHeight + j * triangleHeight * 0.6;
+                        const triangleWidth = treeWidth * (1 - j * 0.2);
+                        
+                        ctx.moveTo(x - triangleWidth/2, triangleY);
+                        ctx.lineTo(x, triangleY - triangleHeight);
+                        ctx.lineTo(x + triangleWidth/2, triangleY);
+                        ctx.closePath();
+                    }
+                } else {
+                    // 圆形树冠
+                    ctx.arc(x, baseHeight - treeHeight - treeWidth, treeWidth, 0, Math.PI * 2);
+                }
+                ctx.fill();
+            }
+        }
+        
+        // 添加气氛元素
+        function drawAtmosphere() {
+            // 添加薄雾效果
+            ctx.fillStyle = 'rgba(200, 225, 255, 0.05)';
+            for (let y = canvas.height * 0.7; y < canvas.height; y += 20) {
+                ctx.fillRect(0, y, canvas.width, 15);
+            }
+            
+            // 添加光晕效果
+            const gradient = ctx.createRadialGradient(
+                canvas.width * 0.3, canvas.height * 0.3, 0,
+                canvas.width * 0.3, canvas.height * 0.3, canvas.width * 0.5
+            );
+            gradient.addColorStop(0, 'rgba(255, 240, 200, 0.1)');
+            gradient.addColorStop(1, 'rgba(255, 240, 200, 0)');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        
+        // 执行绘图
+        drawStars();
+        drawMountains();
+        drawWaterReflection();
+        drawTrees();
+        drawAtmosphere();
+        
+        // 提供下载功能
+        document.addEventListener('click', function() {
+            const link = document.createElement('a');
+            link.download = 'game-background.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.9);
+            link.click();
+        });
+        
+        // 提示用户点击下载
+        ctx.font = '24px Arial';
+        ctx.fillStyle = 'white';
+        ctx.fillText('点击画布下载生成的背景图片', 20, 40);
+    </script>
+</body>
+</html>
