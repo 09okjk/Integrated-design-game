@@ -522,7 +522,7 @@ export const useGameStore = defineStore('game', {
     
     // 更新天气效果
     updateWeatherEffects() {
-      // const now = Date.now();
+      const now = Date.now();
       
       // 遍历地图上的每个网格
       for (let y = 0; y < this.map.length; y++) {
@@ -539,7 +539,6 @@ export const useGameStore = defineStore('game', {
           }
 
           // 检查雨水效果是否卡住（存在超过正常持续时间）
-          const now = Date.now();
           cell.activeWeatherEffects = cell.activeWeatherEffects.filter(effect => {
             // 如果效果已经存在超过30秒（远超正常持续时间），则移除
             if (now - effect.startTime > 30000) {
