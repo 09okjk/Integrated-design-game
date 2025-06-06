@@ -2,9 +2,9 @@
 import { ref, onMounted, watch } from 'vue';
 
 // 定义组件属性
-// const props = defineProps<{
-//   visible: boolean;
-// }>();
+const props = defineProps<{
+  visible: boolean;
+}>();
 
 // 定义组件事件
 const emit = defineEmits(['close', 'next', 'previous', 'finish']);
