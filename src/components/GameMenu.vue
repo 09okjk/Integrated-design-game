@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { defineProps, defineEmits } from 'vue';
 
-// const props = defineProps<{
-//   visible: boolean;
-// }>();
+const props = defineProps<{
+  visible: boolean;
+}>();
 
 const emit = defineEmits(['close']);
 

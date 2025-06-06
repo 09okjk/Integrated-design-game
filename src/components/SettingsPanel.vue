@@ -2,9 +2,9 @@
 import { ref, watch } from 'vue';
 import soundService from '../services/SoundService';
 
-// const props = defineProps<{
-//   visible: boolean;
-// }>();
+const props = defineProps<{
+  visible: boolean;
+}>();
 
 const emit = defineEmits(['close']);
 
