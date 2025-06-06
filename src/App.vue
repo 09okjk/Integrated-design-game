@@ -12,8 +12,8 @@ const gameTitle = ref('自然协奏曲：原始时代')
 
 // 新手引导状态
 const showTutorial = ref(false)
-// const tutorialCompleted = ref(false)
-// const firstTimePlay = ref(true) // 用于记录是否是第一次游玩
+const tutorialCompleted = ref(false)
+const firstTimePlay = ref(true) // 用于记录是否是第一次游玩
 
 // 面板显示状态
 const showSettings = ref(false)
