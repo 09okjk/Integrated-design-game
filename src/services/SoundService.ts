@@ -21,7 +21,7 @@ class SoundService {
    */
   private preloadSounds(): void {
     // 地图板块悬停音效 - 设置较小的音量
-    this.loadSound('hover', 'hover.mp3', 0.2); // 设置为20%的音量
+    this.loadSound('hover', 'hover.mp3', 0.02); // 设置为20%的音量
     
     // 下雨音效
     this.loadSound('rain', 'rain.mp3');
